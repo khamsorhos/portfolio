@@ -1,0 +1,847 @@
+โครงสร้างเว็บที่ชัดเจน
+
+ผมจะปรับ index.html ให้เป็นเว็บเพจที่พร้อมใช้งานมากขึ้น และแก้จุด HTML ที่ผิดโครงสร้างเล็กน้อย
+
+
+index.html
+Applied
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สรุปผลการตรวจสอบเวชระเบียน ปี2569 ครั้งที่1 | รพ.ขามทะเลสอ 10888</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root{
+  --primary:#1a56db;--primary-light:#e8f0fe;
+  --success:#057a55;--success-light:#def7ec;
+  --warning:#c27803;--warning-light:#fdf6b2;
+  --danger:#c81e1e;--danger-light:#fde8e8;
+  --purple:#6c2bd9;--purple-light:#edebfe;
+  --teal:#0694a2;--teal-light:#d5f5f6;
+  --orange:#b45309;--orange-light:#fef3c7;
+  --gray:#6b7280;--gray-light:#f3f4f6;
+  --dark:#111827;--border:#e5e7eb;--white:#ffffff;
+  --font-main:'Sarabun',sans-serif;--font-head:'Kanit',sans-serif;
+  --radius:8px;--radius-lg:12px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 4px 6px rgba(0,0,0,0.05),0 2px 4px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-main);background:#fff;color:var(--dark);font-size:14px;min-height:100vh}
+
+/* HEADER */
+.app-header{background:#fff;border-bottom:1.5px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;flex-wrap:wrap;gap:10px;max-width:1320px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:44px;height:44px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.brand-name{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--dark);line-height:1.2}
+.brand-sub{font-size:11px;color:var(--gray);margin-top:2px}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);font-family:var(--font-main);font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;transition:all .18s;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:#1648c0;transform:translateY(-1px)}
+.btn-danger{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn-danger:hover{background:#b01e1e;transform:translateY(-1px)}
+.btn-outline{background:#fff;color:var(--dark);border-color:var(--border)}
+.btn-outline:hover{background:var(--gray-light)}
+
+/* MAIN */
+.main{max-width:1320px;margin:0 auto;padding:22px 28px 40px}
+
+/* TITLE STRIP */
+.title-strip{background:#f9fafb;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:22px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.title-strip h2{font-family:var(--font-head);font-size:17px;font-weight:600;color:var(--dark);margin-bottom:8px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.tag-blue{background:var(--primary-light);color:var(--primary)}
+.tag-green{background:var(--success-light);color:var(--success)}
+.tag-amber{background:var(--orange-light);color:var(--orange)}
+.tag-red{background:var(--danger-light);color:var(--danger)}
+.tag-purple{background:var(--purple-light);color:var(--purple)}
+.stat-hl .sh-label{font-size:12px;color:var(--gray);text-align:right}
+.stat-hl .sh-val{font-family:var(--font-head);font-size:30px;font-weight:700;color:var(--dark);text-align:right}
+.stat-hl .sh-sub{font-size:11px;color:var(--gray);text-align:right}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin-bottom:22px}
+.kpi-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px 17px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 var(--radius-lg) var(--radius-lg)}
+.kpi-blue::after{background:var(--primary)}.kpi-green::after{background:var(--success)}
+.kpi-red::after{background:var(--danger)}.kpi-amber::after{background:var(--warning)}.kpi-gray::after{background:var(--gray)}
+.kpi-icon{font-size:22px;margin-bottom:7px}
+.kpi-label{font-size:12px;color:var(--gray);font-weight:500;margin-bottom:3px}
+.kpi-val{font-family:var(--font-head);font-size:24px;font-weight:700;line-height:1;color:var(--dark)}
+.kpi-pct{font-size:11px;color:var(--gray);margin-top:3px}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:18px}
+.card-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:#fafafa}
+.card-title{font-family:var(--font-head);font-size:14px;font-weight:600;color:var(--dark);display:flex;align-items:center;gap:8px}
+.c-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ci-blue{background:var(--primary-light);color:var(--primary)}
+.ci-green{background:var(--success-light);color:var(--success)}
+.ci-red{background:var(--danger-light);color:var(--danger)}
+.ci-purple{background:var(--purple-light);color:var(--purple)}
+.ci-teal{background:var(--teal-light);color:var(--teal)}
+.ci-amber{background:var(--orange-light);color:var(--orange)}
+.card-body{padding:18px}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+@media(max-width:600px){.grid3{grid-template-columns:1fr 1fr}}
+
+/* BAR ROWS */
+.sec-sub{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin:13px 0 7px;padding-bottom:4px;border-bottom:1px dashed var(--border)}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-label{font-size:12px;color:var(--dark);min-width:230px;flex-shrink:0;line-height:1.3}
+.bar-label small{display:block;font-size:11px;color:var(--gray);margin-top:2px;font-weight:400}
+.bar-track{flex:1;background:var(--gray-light);border-radius:4px;height:13px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-pct{font-size:11px;font-weight:600;color:var(--dark);min-width:42px;text-align:right}
+.bar-cnt{font-size:11px;color:var(--gray);min-width:36px;text-align:right}
+
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:8px 10px;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--gray);border-bottom:1.5px solid var(--border);background:#fafafa}
+.tbl td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#fafafa}
+.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--font-head)}
+.pos{color:var(--success);font-weight:600}
+.neg{color:var(--danger);font-weight:600}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--gray);margin-bottom:10px}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot-sq{width:10px;height:10px;border-radius:2px;display:inline-block;flex-shrink:0}
+
+/* IMPACT BOX */
+.impact-box{margin-top:13px;background:#fef2f2;border:1px solid #fecaca;border-radius:var(--radius);padding:11px 15px}
+.impact-label{font-size:11px;color:#991b1b;margin-bottom:3px;font-weight:600}
+.impact-val{font-family:var(--font-head);font-size:20px;font-weight:700;color:#b91c1c}
+.impact-sub{font-size:11px;color:#b91c1c;margin-top:3px}
+
+/* SUMMARY SECTION */
+.summary-section{background:linear-gradient(135deg,#1e3a5f 0%,#1a56db 100%);border-radius:var(--radius-lg);padding:22px 24px;margin-bottom:18px;color:#fff}
+.summary-section h3{font-family:var(--font-head);font-size:16px;font-weight:600;margin-bottom:4px}
+.summary-section .ss-sub{font-size:12px;opacity:.8;margin-bottom:16px}
+.ss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.ss-item{background:rgba(255,255,255,0.12);border-radius:var(--radius);padding:12px 14px;border:1px solid rgba(255,255,255,0.2)}
+.ss-item .si-label{font-size:11px;opacity:.8;margin-bottom:4px}
+.ss-item .si-val{font-family:var(--font-head);font-size:20px;font-weight:700;line-height:1.1}
+.ss-item .si-sub{font-size:11px;opacity:.7;margin-top:3px}
+.ss-item.si-warn{background:rgba(251,191,36,0.2);border-color:rgba(251,191,36,0.4)}
+.ss-item.si-ok{background:rgba(16,185,129,0.2);border-color:rgba(16,185,129,0.4)}
+.ss-item.si-bad{background:rgba(239,68,68,0.2);border-color:rgba(239,68,68,0.4)}
+
+.finding-list{list-style:none;padding:0}
+.finding-list li{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:13px}
+.finding-list li:last-child{border-bottom:none}
+.fi-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
+.fi-text{flex:1;line-height:1.5}
+.fi-text strong{display:block;margin-bottom:2px}
+.fi-badge{display:inline-flex;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;margin-left:6px}
+
+/* DIFF CARDS */
+.diff-card{border-radius:var(--radius);padding:13px 15px;border:1px solid var(--border)}
+.diff-label{font-size:12px;margin-bottom:4px;font-weight:500}
+.diff-val{font-family:var(--font-head);font-size:20px;font-weight:700}
+.diff-sub{font-size:11px;margin-top:4px}
+
+/* CAUSE TABLE */
+.cause-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.cause-tbl th{text-align:left;padding:5px 8px;font-weight:600;color:var(--gray);font-size:11px;border-bottom:1px solid var(--border);background:#fafafa}
+.cause-tbl td{padding:7px 8px;border-bottom:1px solid var(--border)}
+.cause-tbl tr:last-child td{border-bottom:none;background:#fafafa;font-weight:600}
+
+/* PRINT */
+@media print{
+  .app-header .header-actions,.btn,.no-print{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid #d1d5db;page-break-inside:avoid}
+  .app-header{position:static;box-shadow:none}
+  .summary-section{background:#1a56db!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">🏥</div>
+      <div>
+        <div class="brand-name">งานประกัน&ดิจิทัล' ตรวจสอบเวชระเบียน ผู้ป่วยใน</div>
+        <div class="brand-sub">รพ.ขามทะเลสอ 10888 | จ.นครราชสีมา | ครั้งที่ 2 | 09/05/2569 | แผนกประกัน &amp; ดิจิทัล</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="window.print()">🖨️ พิมพ์</button>
+      <button class="btn btn-danger" onclick="exportPDF()">📄 ส่งออก PDF</button>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="title-strip">
+    <div>
+      <h2>สรุปผลการตรวจสอบเวชระเบียนผู้ป่วยใน ปีงบประมาณ 2568–2569</h2>
+      <div class="tags">
+        <span class="tag tag-blue">📅 ปีงบประมาณ 2569</span>
+        <span class="tag tag-green">📅 ปีงบประมาณ 2568</span>
+        <span class="tag tag-amber">📋 ครั้งที่ 2 | 09/05/2569</span>
+        <span class="tag tag-red">🏥 รพ.ขามทะเลสอ 10888</span>
+        <span class="tag tag-purple">💰 อัตรา 2569 ×3,500 | 2568 ×8,500</span>
+      </div>
+    </div>
+    <div class="stat-hl">
+      <div class="sh-label">ผู้ป่วยที่ตรวจสอบ</div>
+      <div class="sh-val">40</div>
+      <div class="sh-sub">ฉบับ (ปีงบประมาณ 2569)</div>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h3>📌 สรุปจากการประมวลผลครั้งนี้ (Update 09/05/2569)</h3>
+    <div class="ss-sub">ข้อค้นพบสำคัญและตัวชี้วัดหลักจากการตรวจสอบเวชระเบียน 40 ฉบับ ปีงบประมาณ 2569</div>
+
+    <div class="ss-grid" style="margin-bottom:16px">
+      <div class="ss-item si-ok">
+        <div class="si-label">✅ ผ่านการตรวจสอบ</div>
+        <div class="si-val">65.00%</div>
+        <div class="si-sub">26 ฉบับ ไม่พบผิดพลาด</div>
+      </div>
+      <div class="ss-item si-bad">
+        <div class="si-label">❌ ผิดพลาดกระทบ DRG</div>
+        <div class="si-val">32.50%</div>
+        <div class="si-sub">13 ฉบับ ต้องแก้ไข</div>
+      </div>
+      <div class="ss-item si-warn">
+        <div class="si-label">⚠️ ADJ RW สุทธิเปลี่ยนแปลง</div>
+        <div class="si-val">−4.1229</div>
+        <div class="si-sub">RW (47.44 → 43.3171)</div>
+      </div>
+      <div class="ss-item si-bad">
+        <div class="si-label">💸 ผลกระทบมูลค่า ×3,500</div>
+        <div class="si-val">−14,430</div>
+        <div class="si-sub">บาท (ปีงบ 2569)</div>
+      </div>
+      <div class="ss-item si-bad">
+        <div class="si-label">📉 CA0 สอดคล้อง (ปี 2568)</div>
+        <div class="si-val">57.50%</div>
+        <div class="si-sub">23/40 ฉบับ ต่ำกว่า SA0</div>
+      </div>
+      <div class="ss-item si-ok">
+        <div class="si-label">📋 SA0 สอดคล้อง (ปี 2568)</div>
+        <div class="si-val">97.50%</div>
+        <div class="si-sub">39/40 ฉบับ</div>
+      </div>
+    </div>
+
+    <ul class="finding-list">
+      <li>
+        <div class="fi-num">1</div>
+        <div class="fi-text">
+          <strong>ปัญหาหลัก: CA2d — เพิ่มรหัส CC ไม่ตรงตามมาตรฐาน <span class="fi-badge" style="background:rgba(239,68,68,0.3);color:#fca5a5">25% | 10 ราย</span></strong>
+          พบมากที่สุดในกลุ่มการให้รหัส ต้องเร่งอบรม Coder ด้านมาตรฐาน ICD-10 โดยเฉพาะการเพิ่มรหัส CC
+        </div>
+      </li>
+      <li>
+        <div class="fi-num">2</div>
+        <div class="fi-text">
+          <strong>SA2d2 — สรุป CC โดยไม่มีหลักฐานใน EMR <span class="fi-badge" style="background:rgba(239,68,68,0.3);color:#fca5a5">22.5% | 9 ราย</span></strong>
+          แพทย์ระบุโรคร่วมใน Summary Discharge แต่ไม่มีหลักฐานสนับสนุนใน EMR ควรปรับกระบวนการบันทึก
+        </div>
+      </li>
+      <li>
+        <div class="fi-num">3</div>
+        <div class="fi-text">
+          <strong>SA1b — สรุป Principal Diagnosis ไม่ถูกต้อง <span class="fi-badge" style="background:rgba(251,191,36,0.3);color:#fbbf24">20% | 8 ราย</span></strong>
+          แพทย์เลือก Pdx ไม่ตรงหลักเกณฑ์ NHSO ควรทบทวนแนวทางการเลือก Pdx ร่วมกับทีม
+        </div>
+      </li>
+      <li>
+        <div class="fi-num">4</div>
+        <div class="fi-text">
+          <strong>สาเหตุผิดพลาดที่กระทบ DRG: สรุปโรค+หัตถการ = ให้รหัส = 10 ราย (76.9%) <span class="fi-badge" style="background:rgba(239,68,68,0.3);color:#fca5a5">สูงสุด</span></strong>
+          ทั้งสองสาเหตุพบเท่ากัน บ่งชี้ว่าปัญหาเกิดทั้งในระดับแพทย์และ Coder พร้อมกัน
+        </div>
+      </li>
+      <li>
+        <div class="fi-num">5</div>
+        <div class="fi-text">
+          <strong>ADJ RW เพิ่มขึ้น 3 ราย (+3.6653 RW) | ลดลง 11 ราย (−7.7882 RW)</strong>
+          สุทธิลดลง −4.1229 RW คิดเป็น <strong>−14,430.15 บาท</strong> ตามอัตรา ×3,500 (ปีงบ 2569)
+        </div>
+      </li>
+      <li>
+        <div class="fi-num">6</div>
+        <div class="fi-text">
+          <strong>การอุธรณ์เวชระเบียนที่ตรวจ ข้อผิดพลาดมีผลต่อ AdjRW 13 ฉบับ ทำการอุธรณ์ทั้งสิ้น 5 ฉบับ</strong>
+          สาเหตุหลักคือ การให้ principal ไม่ตามหลักเกณฑ์ 4 ฉบับ และ comorbidity ไม่ตามหลักเกณฑ์ 1 ฉบับ
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-gray">
+      <div class="kpi-icon">📋</div>
+      <div class="kpi-label">ไม่พบเวชระเบียน</div>
+      <div class="kpi-val" style="color:var(--gray)">0</div>
+      <div class="kpi-pct">0.00%</div>
+    </div>
+    <div class="kpi-card kpi-amber">
+      <div class="kpi-icon">⚠️</div>
+      <div class="kpi-label">ไม่เข้าเงื่อนไขชดเชย</div>
+      <div class="kpi-val" style="color:var(--warning)">1</div>
+      <div class="kpi-pct">2.50% (แนบเวชระเบียนไม่ถูกต้อง)</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-icon">🔴</div>
+      <div class="kpi-label">ผิดพลาดกระทบ DRG/AdjRW</div>
+      <div class="kpi-val" style="color:var(--danger)">13</div>
+      <div class="kpi-pct">32.50%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-icon">✅</div>
+      <div class="kpi-label">ไม่พบความผิดพลาด</div>
+      <div class="kpi-val" style="color:var(--success)">26</div>
+      <div class="kpi-pct">65.00%</div>
+    </div>
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-icon">📊</div>
+      <div class="kpi-label">ADJ RW ก่อนตรวจ</div>
+      <div class="kpi-val">47.44</div>
+      <div class="kpi-pct">หน่วย RW</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-icon">📉</div>
+      <div class="kpi-label">ADJ RW หลังตรวจ</div>
+      <div class="kpi-val" style="color:var(--danger)">43.3171</div>
+      <div class="kpi-pct">ลดลง −4.1229 RW</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-head">
+        <div class="card-title"><div class="c-icon ci-blue">📊</div>ผลการตรวจสอบ ปีงบ 2569 (40 ฉบับ)</div>
+      </div>
+      <div class="card-body">
+        <div style="position:relative;height:240px">
+          <canvas id="auditBarChart" role="img"
+            aria-label="กราฟแท่งผลการตรวจสอบ 40 ฉบับ: ไม่พบความผิดพลาด 26 ฉบับ 65%, ผิดพลาดกระทบ DRG 13 ฉบับ 32.5%, ไม่เข้าเงื่อนไข 1 ฉบับ 2.5%"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-head">
+        <div class="card-title"><div class="c-icon ci-red">📉</div>การเปลี่ยนแปลงค่า ADJ RW ปีงบ 2569</div>
+      </div>
+      <div class="card-body">
+        <table class="tbl">
+          <thead><tr><th>รายการ</th><th class="num">ราย</th><th class="num">ADJ RW</th></tr></thead>
+          <tbody>
+            <tr><td>ค่า ADJ RW ก่อนตรวจ</td><td class="num">—</td><td class="num">47.4400</td></tr>
+            <tr><td class="pos">↑ เพิ่มขึ้นหลังตรวจ</td><td class="num pos">3</td><td class="num pos">+3.6653</td></tr>
+            <tr><td class="neg">↓ ลดลงหลังตรวจ</td><td class="num neg">11</td><td class="num neg">−7.7882</td></tr>
+            <tr style="background:#fafafa;font-weight:600"><td>ค่า ADJ RW หลังตรวจ</td><td class="num">—</td><td class="num neg">43.3171</td></tr>
+            <tr style="background:#fef2f2;font-weight:600"><td style="color:var(--danger)">ผลรวมการเปลี่ยนแปลง</td><td class="num"></td><td class="num neg">−4.1229</td></tr>
+          </tbody>
+        </table>
+        <div class="impact-box">
+          <div class="impact-label">💰 ผลกระทบต่อมูลค่า (คำนวณ ×3,500 บาท/RW)</div>
+          <div class="impact-val">−14,430.15 บาท</div>
+          <div class="impact-sub">จาก −4.1229 RW × 3,500 บาท (อัตราปีงบ 2569)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-head">
+        <div class="card-title"><div class="c-icon ci-teal">🥧</div>สัดส่วนผลการตรวจ ปีงบ 2569</div>
+      </div>
+      <div class="card-body">
+        <div class="legend">
+          <span><span class="dot-sq" style="background:#057a55"></span>ไม่พบผิดพลาด 65% (26)</span>
+          <span><span class="dot-sq" style="background:#c81e1e"></span>กระทบ DRG 32.5% (13)</span>
+          <span><span class="dot-sq" style="background:#c27803"></span>ไม่ชดเชย 2.5% (1)</span>
+        </div>
+        <div style="position:relative;height:200px">
+          <canvas id="auditPieChart" role="img"
+            aria-label="กราฟวงกลม: ไม่พบความผิดพลาด 65%, ผิดพลาดกระทบ DRG 32.5%, ไม่เข้าเงื่อนไขชดเชย 2.5%"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-head">
+        <div class="card-title"><div class="c-icon ci-purple">🔍</div>สาเหตุผิดพลาดที่กระทบ DRG ปี 2569</div>
+        <span class="tag tag-red">13 ฉบับ | 22 ประเด็น*</span>
+      </div>
+      <div class="card-body">
+        <div class="legend">
+          <span><span class="dot-sq" style="background:#1a56db"></span>สรุปโรค+หัตถการ</span>
+          <span><span class="dot-sq" style="background:#057a55"></span>ให้รหัส</span>
+          <span><span class="dot-sq" style="background:#c27803"></span>บันทึกข้อมูล</span>
+        </div>
+        <div style="position:relative;height:155px">
+          <canvas id="causePieChart" role="img"
+            aria-label="กราฟวงกลม: สรุปโรค+หัตถการ 10 ราย 76.92%, ให้รหัส 10 ราย 76.92%, บันทึกข้อมูล 2 ราย 15.38%"></canvas>
+        </div>
+        <table class="cause-tbl">
+          <thead><tr><th>สาเหตุ</th><th style="text-align:right">ฉบับ</th><th style="text-align:right">ร้อยละ</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="dot-sq" style="background:#1a56db"></span>จากการสรุปโรคและหัตถการ</span></td>
+              <td style="text-align:right;font-weight:600;color:var(--primary)">10</td>
+              <td style="text-align:right;font-weight:600;color:var(--primary)">76.92%</td>
+            </tr>
+            <tr>
+              <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="dot-sq" style="background:#057a55"></span>จากการให้รหัสโรคและหัตถการ</span></td>
+              <td style="text-align:right;font-weight:600;color:var(--success)">10</td>
+              <td style="text-align:right;font-weight:600;color:var(--success)">76.92%</td>
+            </tr>
+            <tr>
+              <td><span style="display:inline-flex;align-items:center;gap:6px"><span class="dot-sq" style="background:#c27803"></span>จากการบันทึกข้อมูล</span></td>
+              <td style="text-align:right;font-weight:600;color:var(--warning)">2</td>
+              <td style="text-align:right;font-weight:600;color:var(--warning)">15.38%</td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray);font-size:11px" colspan="3">*บางฉบับมีหลายสาเหตุ รวม 22 ประเด็น จาก 13 ฉบับ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title"><div class="c-icon ci-green">🩺</div>ความผิดพลาดการสรุปโรคและหัตถการ (Summary Assessment – SA) ปีงบ 2568</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag tag-green">SA0 สอดคล้อง 97.50% (39 ฉบับ)</span>
+        <span class="tag tag-amber">SA ผิดพลาด &gt;1 รายการต่อฉบับ</span>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="sec-sub">SA1 — Principal Diagnosis (PDx)</div>
+      <div class="bar-row">
+        <div class="bar-label">SA1a: ไม่สรุป Pdx</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA1b: สรุป Pdx ไม่ถูกต้อง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:20%;background:#c81e1e"></div></div>
+        <div class="bar-pct">20.00%</div><div class="bar-cnt">8 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA1c: สรุป Pdx ไม่เฉพาะเจาะจง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:2.5%;background:#ef9f27"></div></div>
+        <div class="bar-pct">2.50%</div><div class="bar-cnt">1 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA1d: สรุป Pdx โดยไม่มีหลักฐานในเวชระเบียน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+
+      <div class="sec-sub">SA2 — Additional Diagnosis / Co-morbidity &amp; Complication (CC)</div>
+      <div class="bar-row">
+        <div class="bar-label">SA2a: ไม่สรุป CC</div>
+        <div class="bar-track"><div class="bar-fill" style="width:17.5%;background:#c81e1e"></div></div>
+        <div class="bar-pct">17.50%</div><div class="bar-cnt">7 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA2b: สรุป CC ไม่ถูกต้อง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:10%;background:#ef9f27"></div></div>
+        <div class="bar-pct">10.00%</div><div class="bar-cnt">4 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA2c: สรุป CC ไม่เฉพาะเจาะจง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:2.5%;background:#ef9f27"></div></div>
+        <div class="bar-pct">2.50%</div><div class="bar-cnt">1 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">
+          SA2d1: สรุป CC โดยไม่มีหลักฐานในเวชระเบียน
+          <small>ไม่พบบันทึกการวินิจฉัยโดยแพทย์ / ไม่เป็นไปตามมาตรฐานการสรุปโรค</small>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:5%;background:#b45309"></div></div>
+        <div class="bar-pct">5.00%</div><div class="bar-cnt">2 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">
+          SA2d2: สรุป CC โดยไม่มีหลักฐานใน EMR
+          <small>พบเพียงการสรุปโรคใน Summary Discharge ไม่มีหลักฐานใดใน EMR</small>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:22.5%;background:#991b1b"></div></div>
+        <div class="bar-pct">22.50%</div><div class="bar-cnt">9 ฉบับ</div>
+      </div>
+
+      <div class="sec-sub">SA3 — Operation (Op) รวมถึง Non OR procedure</div>
+      <div class="bar-row">
+        <div class="bar-label">SA3a: ไม่สรุป Op</div>
+        <div class="bar-track"><div class="bar-fill" style="width:2.5%;background:#c81e1e"></div></div>
+        <div class="bar-pct">2.50%</div><div class="bar-cnt">1 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA3b: สรุป Op ไม่ถูกต้อง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA3c: สรุป Op ไม่เฉพาะเจาะจง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">
+          SA3d1: สรุปหัตถการ บันทึกขั้นตอนไม่ครบ / ไม่มีลายเซ็นแพทย์
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">
+          SA3d2: สรุปหัตถการ ไม่พบหลักฐานใน EMR
+          <small>พบเพียงการสรุปใน Summary Discharge</small>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA5: ไม่มีการสรุปเวชระเบียน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">SA6: ปัญหาอื่น ใช้คำย่อ/คำกำกวม/อ่านไม่ออก</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title"><div class="c-icon ci-purple">🔤</div>ความผิดพลาดการให้รหัสโรคและหัตถการ (Code Assessment – CA) ปีงบ 2568</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag tag-purple">CA0 สอดคล้อง 57.50% (23 ฉบับ)</span>
+        <span class="tag tag-red">CA ผิดพลาด &gt;1 รายการต่อฉบับ</span>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="sec-sub">CA1 — Principal Diagnosis Coding (PDx)</div>
+      <div class="bar-row">
+        <div class="bar-label">CA1a: ไม่ให้รหัส Pdx</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA1b: ให้รหัส Pdx ไม่ถูกต้องตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:15%;background:#c81e1e"></div></div>
+        <div class="bar-pct">15.00%</div><div class="bar-cnt">6 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA1c: ให้รหัส Pdx ไม่เฉพาะเจาะจงตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+
+      <div class="sec-sub">CA2 — Additional Diagnosis Coding / CC</div>
+      <div class="bar-row">
+        <div class="bar-label">CA2a: ไม่ให้รหัส CC</div>
+        <div class="bar-track"><div class="bar-fill" style="width:2.5%;background:#ef9f27"></div></div>
+        <div class="bar-pct">2.50%</div><div class="bar-cnt">1 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA2b: ให้รหัส CC ไม่ถูกต้องตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:7.5%;background:#c81e1e"></div></div>
+        <div class="bar-pct">7.50%</div><div class="bar-cnt">3 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA2c: ให้รหัส CC ไม่เฉพาะเจาะจงตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA2d: เพิ่มรหัส CC ไม่ตรงตามมาตรฐานการให้รหัส ⚠️</div>
+        <div class="bar-track"><div class="bar-fill" style="width:25%;background:#991b1b"></div></div>
+        <div class="bar-pct">25.00%</div><div class="bar-cnt">10 ฉบับ</div>
+      </div>
+
+      <div class="sec-sub">CA3 — Incorrect Operation Code</div>
+      <div class="bar-row">
+        <div class="bar-label">CA3a: ไม่ให้รหัส Op</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA3b: ให้รหัส Op ไม่ถูกต้องตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA3c: ให้รหัส Op ไม่เฉพาะเจาะจง</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA3d: เพิ่มรหัส Op โดยไม่ตรงตามมาตรฐาน</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">CA6: ปัญหาอื่น (วินิจฉัย Doctor vs Coder ต่างกัน)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#c81e1e"></div></div>
+        <div class="bar-pct">0.00%</div><div class="bar-cnt">0 ฉบับ</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title"><div class="c-icon ci-amber">📝</div>สรุปตัวชี้วัดหลักและข้อเสนอแนะ</div>
+    </div>
+    <div class="card-body">
+      <div class="grid3" style="margin-bottom:16px">
+        <div class="diff-card" style="background:#fef2f2;border-color:#fecaca">
+          <div class="diff-label" style="color:#991b1b">ADJ RW สุทธิที่สูญเสีย</div>
+          <div class="diff-val" style="color:#b91c1c">−4.1229 RW</div>
+          <div class="diff-sub" style="color:#b91c1c">≈ −14,430 บาท (×3,500 ปีงบ 2569)</div>
+        </div>
+        <div class="diff-card" style="background:#fef3c7;border-color:#fcd34d">
+          <div class="diff-label" style="color:#92400e">ปัญหาหลัก (Code Assessment)</div>
+          <div class="diff-val" style="color:#b45309">CA2d</div>
+          <div class="diff-sub" style="color:#b45309">เพิ่มรหัส CC ไม่ตรงมาตรฐาน<br>10 ฉบับ | 25.00%</div>
+        </div>
+        <div class="diff-card" style="background:#f0fdf4;border-color:#bbf7d0">
+          <div class="diff-label" style="color:#166534">อัตราความถูกต้อง ปี 2569</div>
+          <div class="diff-val" style="color:#15803d">65.00%</div>
+          <div class="diff-sub" style="color:#15803d">26 จาก 40 ฉบับ ไม่พบผิดพลาด</div>
+        </div>
+      </div>
+
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:15px 17px;font-size:13px;line-height:1.75;color:#1e3a5f">
+        <strong style="color:#1e40af;display:block;margin-bottom:8px;font-size:14px">💡 ข้อเสนอแนะจากการประมวลผลครั้งนี้</strong>
+        <ol style="padding-left:18px;color:#1e3a5f">
+          <li><strong>CA2d (25%, 10 ฉบับ)</strong> — เร่งอบรม Coder ด้านมาตรฐานการเพิ่มรหัส CC ตาม ICD-10-TM และ DRG Grouper ให้ถูกต้อง</li>
+          <li><strong>SA2d2 (22.5%, 9 ฉบับ)</strong> — แพทย์ต้องบันทึกโรคร่วมใน EMR ให้ครบถ้วนก่อนสรุปใน Summary Discharge</li>
+          <li><strong>SA1b (20%, 8 ฉบับ)</strong> — ทบทวนหลักเกณฑ์การเลือก Principal Diagnosis ตามแนวทาง NHSO ร่วมกับทีมแพทย์</li>
+          <li><strong>SA2a (17.5%, 7 ฉบับ)</strong> — กรณีไม่สรุป CC ให้แพทย์ตรวจสอบโรคร่วมในผู้ป่วยทุกราย</li>
+          <li><strong>สาเหตุผิดพลาด DRG</strong> — พบทั้งระดับแพทย์ (สรุปโรค 76.92%) และ Coder (ให้รหัส 76.92%) เท่ากัน ควรดำเนินการพัฒนาคู่ขนาน</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer style="background:#f9fafb;border-top:1px solid var(--border);text-align:center;padding:14px 24px;font-size:12px;color:var(--gray)">
+  <p>© 2026 | <strong style="color:var(--dark)">นายฉัตรชัย ฉัตรสูงเนิน</strong> | แผนกประกัน &amp; ดิจิทัล | รพ.ขามทะเลสอ 10888 จ.นครราชสีมา</p>
+  <p style="margin-top:4px;font-size:11px;color:#9ca3af">ระบบวิเคราะห์ผลการตรวจสอบเวชระเบียนผู้ป่วยใน | ข้อมูล ณ วันที่ 09/05/2569 | Update: ครั้งที่ 2</p>
+</footer>
+
+<script>
+new Chart(document.getElementById('auditBarChart'),{
+  type:'bar',
+  data:{
+    labels:['ไม่พบเวชระเบียน','ไม่เข้าเงื่อนไขชดเชย','ผิดพลาดกระทบ DRG','ไม่พบความผิดพลาด'],
+    datasets:[{
+      label:'จำนวน (ฉบับ)',
+      data:[0,1,13,26],
+      backgroundColor:['#d1d5db','#fcd34d','#fca5a5','#6ee7b7'],
+      borderColor:['#9ca3af','#f59e0b','#c81e1e','#057a55'],
+      borderWidth:1.5,borderRadius:6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.raw} ฉบับ (${(ctx.raw/40*100).toFixed(2)}%)`}}
+    },
+    scales:{
+      x:{ticks:{font:{size:11,family:'Sarabun'},maxRotation:20,color:'#6b7280'},grid:{display:false}},
+      y:{ticks:{stepSize:5,color:'#6b7280',font:{size:11}},grid:{color:'rgba(0,0,0,0.05)'},
+         title:{display:true,text:'จำนวน (ฉบับ)',color:'#6b7280',font:{size:11}}}
+    }
+  }
+});
+
+new Chart(document.getElementById('auditPieChart'),{
+  type:'doughnut',
+  data:{
+    labels:['ไม่พบความผิดพลาด (26)','ผิดพลาดกระทบ DRG (13)','ไม่เข้าเงื่อนไขชดเชย (1)'],
+    datasets:[{data:[65,32.5,2.5],backgroundColor:['#057a55','#c81e1e','#c27803'],borderColor:'#ffffff',borderWidth:3}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'60%',
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw}%`}}}
+  }
+});
+
+new Chart(document.getElementById('causePieChart'),{
+  type:'doughnut',
+  data:{
+    labels:['สรุปโรค+หัตถการ (10 ฉบับ)','ให้รหัส (10 ฉบับ)','บันทึกข้อมูล (2 ฉบับ)'],
+    datasets:[{data:[10,10,2],backgroundColor:['#1a56db','#057a55','#c27803'],borderColor:'#ffffff',borderWidth:3}]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:'55%',
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.raw} ฉบับ (${(ctx.raw/13*100).toFixed(2)}%)`}}
+    }
+  }
+});
+
+function exportPDF(){
+  if(!window.jspdf){alert('ไม่สามารถโหลด jsPDF ได้');return;}
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  doc.setFont('helvetica');
+
+  doc.setFillColor(26,86,219);doc.rect(0,0,210,22,'F');
+  doc.setFontSize(13);doc.setTextColor(255,255,255);
+  doc.text('Dashboard ตรวจสอบเวชระเบียน | รพ.ขามทะเลสอ 10888',14,14);
+  doc.setFontSize(8);
+  doc.text('ครั้งที่ 2 | 09/05/2569 | แผนกประกัน & ดิจิทัล',210-14,14,{align:'right'});
+
+  let y=28;
+  doc.setTextColor(17,24,39);doc.setFontSize(11);doc.setFont('helvetica','bold');
+  doc.text('สรุปจากการประมวลผลครั้งนี้ (Update 09/05/2569)',14,y);y+=5;
+  doc.autoTable({
+    startY:y,
+    head:[['ตัวชี้วัด','ค่า','หมายเหตุ']],
+    body:[
+      ['ผ่านการตรวจสอบ','65.00%','26/40 ฉบับ'],
+      ['ผิดพลาดกระทบ DRG','32.50%','13/40 ฉบับ'],
+      ['ADJ RW เปลี่ยนแปลงสุทธิ','-4.1229 RW','47.44 → 43.3171'],
+      ['ผลกระทบมูลค่า (x3,500)','-14,430.15 บาท','ปีงบ 2569'],
+      ['CA0 สอดคล้อง (ปี 2568)','57.50%','23/40 ฉบับ'],
+      ['SA0 สอดคล้อง (ปี 2568)','97.50%','39/40 ฉบับ'],
+    ],
+    theme:'grid',headStyles:{fillColor:[26,86,219],textColor:255,fontSize:9,fontStyle:'bold'},
+    bodyStyles:{fontSize:9},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+7;
+
+  doc.setFontSize(10);doc.setFont('helvetica','bold');
+  doc.text('ผลการตรวจสอบ ปีงบ 2569 (40 ฉบับ)',14,y);y+=4;
+  doc.autoTable({
+    startY:y,
+    head:[['รายการ','ฉบับ','ร้อยละ']],
+    body:[
+      ['1. ไม่พบเวชระเบียน','0','0.00%'],
+      ['2. ไม่เข้าเงื่อนไขชดเชย (แนบเวชระเบียนไม่ถูกต้อง)','1','2.50%'],
+      ['3. ผิดพลาดกระทบ DRG/AdjRW','13','32.50%'],
+      ['3.1 จากการสรุปโรคและหัตถการ','10','76.92%'],
+      ['3.2 จากการให้รหัสโรคและหัตถการ','10','76.92%'],
+      ['3.3 จากการบันทึกข้อมูล','2','15.38%'],
+      ['4. ไม่พบความผิดพลาด','26','65.00%'],
+    ],
+    theme:'grid',headStyles:{fillColor:[200,30,30],textColor:255,fontSize:9},
+    bodyStyles:{fontSize:9},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+7;
+
+  doc.setFontSize(10);doc.setFont('helvetica','bold');
+  doc.text('การเปลี่ยนแปลงค่า ADJ RW',14,y);y+=4;
+  doc.autoTable({
+    startY:y,
+    head:[['รายการ','จำนวน (ราย)','ADJ RW']],
+    body:[
+      ['ก่อนตรวจ','—','47.4400'],
+      ['เพิ่มขึ้น','3','+3.6653'],
+      ['ลดลง','11','-7.7882'],
+      ['หลังตรวจ','—','43.3171'],
+      ['ผลรวมการเปลี่ยนแปลง','—','-4.1229'],
+      ['ผลกระทบมูลค่า (x3,500)','—','-14,430.15 บาท'],
+    ],
+    theme:'grid',headStyles:{fillColor:[200,30,30],textColor:255,fontSize:9},
+    bodyStyles:{fontSize:9},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+7;
+
+  if(y>240){doc.addPage();y=14;}
+  doc.setFontSize(10);doc.setFont('helvetica','bold');
+  doc.text('Summary Assessment (SA) ปีงบ 2568',14,y);y+=4;
+  doc.autoTable({
+    startY:y,
+    head:[['รหัส SA','รายละเอียด','ฉบับ','ร้อยละ']],
+    body:[
+      ['SA0','ความเห็นสอดคล้องกัน','39','97.50%'],
+      ['SA1a','ไม่สรุป Pdx','0','0.00%'],
+      ['SA1b','สรุป Pdx ไม่ถูกต้อง','8','20.00%'],
+      ['SA1c','สรุป Pdx ไม่เฉพาะเจาะจง','1','2.50%'],
+      ['SA1d','สรุป Pdx ไม่มีหลักฐาน','0','0.00%'],
+      ['SA2a','ไม่สรุป CC','7','17.50%'],
+      ['SA2b','สรุป CC ไม่ถูกต้อง','4','10.00%'],
+      ['SA2c','สรุป CC ไม่เฉพาะเจาะจง','1','2.50%'],
+      ['SA2d1','สรุป CC ไม่มีหลักฐาน (รพ.)','2','5.00%'],
+      ['SA2d2','สรุป CC ไม่มีหลักฐานใน EMR','9','22.50%'],
+      ['SA3a','ไม่สรุป Op','1','2.50%'],
+      ['SA3b–SA3d2, SA5, SA6','ทุกประเด็น','0','0.00%'],
+    ],
+    theme:'grid',headStyles:{fillColor:[5,122,85],textColor:255,fontSize:9},
+    bodyStyles:{fontSize:9},margin:{left:14,right:14}});
+
+  doc.addPage();y=14;
+  doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(17,24,39);
+  doc.text('Code Assessment (CA) ปีงบ 2568',14,y);y+=4;
+  doc.autoTable({
+    startY:y,
+    head:[['รหัส CA','รายละเอียด','ฉบับ','ร้อยละ']],
+    body:[
+      ['CA0','ความเห็นสอดคล้องกัน','23','57.50%'],
+      ['CA1a','ไม่ให้รหัส Pdx','0','0.00%'],
+      ['CA1b','ให้รหัส Pdx ไม่ถูกต้อง','6','15.00%'],
+      ['CA1c','ให้รหัส Pdx ไม่เฉพาะเจาะจง','0','0.00%'],
+      ['CA2a','ไม่ให้รหัส CC','1','2.50%'],
+      ['CA2b','ให้รหัส CC ไม่ถูกต้อง','3','7.50%'],
+      ['CA2c','ให้รหัส CC ไม่เฉพาะเจาะจง','0','0.00%'],
+      ['CA2d','เพิ่มรหัส CC ไม่ตรงมาตรฐาน ⚠️','10','25.00%'],
+      ['CA3a–CA3d, CA6','ทุกประเด็น','0','0.00%'],
+    ],
+    theme:'grid',headStyles:{fillColor:[108,43,217],textColor:255,fontSize:9},
+    bodyStyles:{fontSize:9},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+8;
+
+  doc.setFontSize(10);doc.setFont('helvetica','bold');
+  doc.text('ข้อเสนอแนะ',14,y);y+=6;
+  const recs=[
+    '1. CA2d (25%) อบรม Coder ด้านมาตรฐานและความครบถ้วน ICD-10-TM ให้ทันสมัย',
+    '2. SA2d2 (22.5%) แพทย์บันทึกโรคร่วมใน EMR ก่อนสรุปใน Summary Discharge',
+    '3. SA1b (20%) ทบทวนหลักเกณฑ์การเลือก Pdx ตามแนวทาง NHSO กับทีมแพทย์',
+    '4. SA2a (17.5%) ตรวจสอบโรคร่วมในผู้ป่วยทุกราย',
+    '5. สาเหตุ DRG ผิดพลาด: แพทย์และ Coder พบเท่ากัน (76.92%) ควรพัฒนาคู่ขนาน',
+  ];
+  doc.setFont('helvetica','normal');doc.setFontSize(9);
+  recs.forEach(r=>{doc.text(r,14,y,{maxWidth:182});y+=7;});
+
+  const pc=doc.getNumberOfPages();
+  for(let p=1;p<=pc;p++){
+    doc.setPage(p);doc.setFontSize(7);doc.setTextColor(150);
+    doc.text('© 2026 นายฉัตรชัย ฉัตรสูงเนิน | แผนกประกัน & ดิจิทัล | รพ.ขามทะเลสอ 10888',14,291);
+    doc.text(`หน้า ${p} / ${pc}`,210-14,291,{align:'right'});
+  }
+  doc.save('Dashboard_ตรวจสอบเวชระเบียน_รพ10888_Update09052569.pdf');
+}
+</script>
+</body>
+</html>
