@@ -1,0 +1,345 @@
+
+<h2 class="sr-only">อินโฟกราฟิกสถิติผู้ป่วย 10 กลุ่มโรคสำคัญ ปี 2566–2568 รพ.ขามทะเลสอ</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem 0 0.5rem}
+
+.hero{
+  background:linear-gradient(135deg,#0c3060 0%,#185fa5 60%,#2563eb 100%);
+  border-radius:var(--border-radius-lg);
+  padding:1.5rem 1.75rem 1.25rem;
+  margin-bottom:1.25rem;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.08em;opacity:.75;text-transform:uppercase;margin-bottom:6px}
+.hero-title{font-size:20px;font-weight:500;line-height:1.2;margin-bottom:10px}
+.hero-meta{display:flex;gap:18px;flex-wrap:wrap}
+.hero-stat{display:flex;flex-direction:column}
+.hero-stat .hs-val{font-size:22px;font-weight:500;line-height:1;color:#93c5fd}
+.hero-stat .hs-lbl{font-size:11px;opacity:.7;margin-top:2px}
+
+.summary-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.25rem}
+.sum-card{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md);
+  padding:10px 12px;
+  position:relative;
+}
+.sum-card .sc-lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.sum-card .sc-val{font-size:20px;font-weight:500;color:var(--color-text-primary);line-height:1}
+.sum-card .sc-sub{font-size:10px;color:var(--color-text-tertiary);margin-top:3px}
+.sum-card .sc-bar{position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 var(--border-radius-md) var(--border-radius-md)}
+
+.chart-label{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+.leg{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;font-size:11px;color:var(--color-text-secondary)}
+.leg span{display:flex;align-items:center;gap:5px}
+.lsq{width:9px;height:9px;border-radius:2px;display:inline-block;flex-shrink:0}
+
+.chart-box{position:relative;margin-bottom:1.25rem}
+
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0}
+
+.tbl-wrap{overflow-x:auto;margin-bottom:0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{
+  padding:8px 10px;text-align:left;
+  font-weight:500;font-size:11px;color:var(--color-text-secondary);
+  border-bottom:0.5px solid var(--color-border-secondary);
+  white-space:nowrap;background:var(--color-background-secondary);
+}
+thead th.num{text-align:right}
+tbody td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle}
+tbody tr:hover td{background:var(--color-background-secondary)}
+tbody tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.rank-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:500;
+}
+.icd{font-size:10px;font-weight:500;padding:2px 6px;border-radius:4px;display:inline-block}
+.chg-up{color:#059669;font-weight:500}
+.chg-dn{color:#dc2626;font-weight:500}
+.bar-inline{display:inline-flex;gap:2px;align-items:flex-end;height:22px}
+.bi-seg{border-radius:1px;width:7px}
+
+.note{font-size:11px;color:var(--color-text-tertiary);margin-top:10px;padding-top:8px;border-top:0.5px solid var(--color-border-tertiary)}
+</style>
+
+<div class="wrap">
+
+  <!-- HERO BANNER -->
+  <div class="hero">
+    <div class="hero-eyebrow">รพ.ขามทะเลสอ 10888 | แผนกประกัน &amp; ดิจิทัล</div>
+    <div class="hero-title">สถิติผู้ป่วย 10 กลุ่มโรคสำคัญ<br>ปีงบประมาณ 2566–2568</div>
+    <div class="hero-meta">
+      <div class="hero-stat"><span class="hs-val">355</span><span class="hs-lbl">ผู้ป่วยรวม ปี 2566</span></div>
+      <div class="hero-stat"><span class="hs-val">416</span><span class="hs-lbl">ผู้ป่วยรวม ปี 2567</span></div>
+      <div class="hero-stat"><span class="hs-val">72*</span><span class="hs-lbl">ผู้ป่วยรวม ปี 2568</span></div>
+      <div class="hero-stat"><span class="hs-val">+17%</span><span class="hs-lbl">การเพิ่มขึ้น 66→67</span></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="summary-row">
+    <div class="sum-card">
+      <div class="sc-lbl">อันดับ 1 · มากที่สุด</div>
+      <div class="sc-val" style="color:#185fa5">J ระบบหายใจ</div>
+      <div class="sc-sub">115 → 129 ราย (ปอดบวม, หอบหืด)</div>
+      <div class="sc-bar" style="background:#185fa5"></div>
+    </div>
+    <div class="sum-card">
+      <div class="sc-lbl">อันดับ 2</div>
+      <div class="sc-val" style="color:#7c3aed">A,B โรคติดเชื้อ</div>
+      <div class="sc-sub">52 → 65 ราย (อุจจาระร่วง, ติดเชื้อ)</div>
+      <div class="sc-bar" style="background:#7c3aed"></div>
+    </div>
+    <div class="sum-card">
+      <div class="sc-lbl">อันดับ 3</div>
+      <div class="sc-val" style="color:#059669">E ต่อมไร้ท่อ</div>
+      <div class="sc-sub">48 → 52 ราย (เบาหวาน, ไทรอยด์)</div>
+      <div class="sc-bar" style="background:#059669"></div>
+    </div>
+    <div class="sum-card">
+      <div class="sc-lbl">เพิ่มสูงสุด %</div>
+      <div class="sc-val" style="color:#d97706">N ระบบสืบพันธุ์</div>
+      <div class="sc-sub">38 → 49 ราย (+28.9%)</div>
+      <div class="sc-bar" style="background:#d97706"></div>
+    </div>
+    <div class="sum-card">
+      <div class="sc-lbl">น้อยที่สุด</div>
+      <div class="sc-val" style="color:#64748b">M กล้ามเนื้อ</div>
+      <div class="sc-sub">3 → 2 ราย (ลดลง)</div>
+      <div class="sc-bar" style="background:#94a3b8"></div>
+    </div>
+  </div>
+
+  <!-- CHART 1: Grouped bar -->
+  <div class="chart-label">
+    <i class="ti ti-chart-bar" aria-hidden="true" style="font-size:15px"></i>
+    เปรียบเทียบจำนวนผู้ป่วยแต่ละกลุ่มโรค (2566–2568)
+  </div>
+  <div class="leg">
+    <span><span class="lsq" style="background:#185fa5"></span>ปี 2566</span>
+    <span><span class="lsq" style="background:#0891b2;border:1.5px dashed #0891b2;background:transparent;width:11px;height:11px"></span><span class="lsq" style="background:#0891b2;width:9px;height:9px;margin-left:-6px"></span>ปี 2567</span>
+    <span><span class="lsq" style="background:#ea580c"></span>ปี 2568*</span>
+  </div>
+  <div class="chart-box" style="height:300px">
+    <canvas id="groupBar" role="img"
+      aria-label="กราฟแท่งเปรียบเทียบ 10 กลุ่มโรค ปี 2566 2567 2568 โดยระบบหายใจสูงสุด 115 129 ราย">
+      ข้อมูล 10 กลุ่มโรค: ระบบไหลเวียนเลือด 42/50, ต่อมไร้ท่อ 48/52, กล้ามเนื้อ 3/2, ย่อยอาหาร 16/19, หายใจ 115/129, สืบพันธุ์ 38/49, ติดเชื้อ 52/65, ประสาท 5/4, จิต 14/17, ผิวหนัง 22/29
+    </canvas>
+  </div>
+
+  <!-- CHART 2: Trend line -->
+  <div class="chart-label" style="margin-top:0.5rem">
+    <i class="ti ti-trending-up" aria-hidden="true" style="font-size:15px"></i>
+    แนวโน้มกลุ่มโรคสำคัญ 5 อันดับแรก
+  </div>
+  <div class="leg">
+    <span><span class="lsq" style="background:#185fa5"></span>J ระบบหายใจ</span>
+    <span><span class="lsq" style="background:#7c3aed"></span>A,B ติดเชื้อ</span>
+    <span><span class="lsq" style="background:#059669"></span>E ต่อมไร้ท่อ</span>
+    <span><span class="lsq" style="background:#0c447c"></span>I ไหลเวียน</span>
+    <span><span class="lsq" style="background:#d97706"></span>N สืบพันธุ์</span>
+  </div>
+  <div class="chart-box" style="height:220px">
+    <canvas id="trendLine" role="img"
+      aria-label="กราฟเส้น 5 กลุ่มโรคอันดับต้น ปี 2566–2568 ระบบหายใจเพิ่มจาก 115 เป็น 129">
+      ระบบหายใจ 115→129, ติดเชื้อ 52→65, ต่อมไร้ท่อ 48→52, ไหลเวียน 42→50, สืบพันธุ์ 38→49
+    </canvas>
+  </div>
+
+  <!-- CHART 3: Donut ปี 2567 -->
+  <div class="chart-label" style="margin-top:0.5rem">
+    <i class="ti ti-chart-donut" aria-hidden="true" style="font-size:15px"></i>
+    สัดส่วนผู้ป่วย ปี 2567 (รวม 416 ราย)
+  </div>
+  <div class="chart-box" style="height:220px">
+    <canvas id="donutChart" role="img"
+      aria-label="กราฟวงกลมสัดส่วนผู้ป่วย ปี 2567 ระบบหายใจสูงสุด 31%">
+      สัดส่วนปี 2567: หายใจ 31%, ติดเชื้อ 16%, ต่อมไร้ท่อ 12.5%, ไหลเวียน 12%
+    </canvas>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DATA TABLE -->
+  <div class="chart-label">
+    <i class="ti ti-table" aria-hidden="true" style="font-size:15px"></i>
+    ตารางข้อมูลสถิติผู้ป่วย 10 กลุ่มโรค ปี 2566–2568
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:26px">#</th>
+          <th>ICD</th>
+          <th>กลุ่มโรค</th>
+          <th>โรคหลัก</th>
+          <th class="num">ปี 2566</th>
+          <th class="num">ปี 2567</th>
+          <th class="num">ปี 2568*</th>
+          <th class="num">เพิ่ม/ลด</th>
+          <th>แนวโน้ม</th>
+        </tr>
+      </thead>
+      <tbody id="tblBody"></tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    หมายเหตุ: * ปี 2568 เป็นข้อมูลบางส่วน (ไม่ครบปีงบประมาณ) | ที่มา: วิเคราะห์จากรหัสการวินิจฉัยหลัก ICD-10 | © 2026 นายฉัตรชัย ฉัตรสูงเนิน | แผนกประกัน &amp; ดิจิทัล
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA = [
+  {rank:1, icd:'J', group:'ระบบหายใจ',       desc:'ปอดบวม, หลอดลมอักเสบ, หอบหืด',          y66:115, y67:129, y68:22, color:'#185fa5'},
+  {rank:2, icd:'A,B',group:'โรคติดเชื้อ',     desc:'อุจจาระร่วง, ติดเชื้อในกระแสเลือด',   y66:52,  y67:65,  y68:11, color:'#7c3aed'},
+  {rank:3, icd:'E',  group:'ต่อมไร้ท่อ',       desc:'เบาหวาน, เกลือแร่ผิดปกติ, ไทรอยด์',  y66:48,  y67:52,  y68:10, color:'#059669'},
+  {rank:4, icd:'I',  group:'ระบบไหลเวียน',    desc:'ความดัน, หลอดเลือดสมอง, หัวใจล้มเหลว',y66:42,  y67:50,  y68:8,  color:'#0c447c'},
+  {rank:5, icd:'N',  group:'ระบบสืบพันธุ์',   desc:'ไตวาย, กระเพาะปัสสาวะอักเสบ',         y66:38,  y67:49,  y68:7,  color:'#d97706'},
+  {rank:6, icd:'L',  group:'โรคผิวหนัง',       desc:'ผิวหนังอักเสบ, ฝีหนองตามตัว',         y66:22,  y67:29,  y68:5,  color:'#0891b2'},
+  {rank:7, icd:'K',  group:'ระบบย่อยอาหาร',   desc:'เลือดออกในทางเดินอาหาร, ตับอักเสบ',   y66:16,  y67:19,  y68:4,  color:'#ea580c'},
+  {rank:8, icd:'F',  group:'ภาวะทางจิต',       desc:'ถอนสุรา, จิตเภท, ซึมเศร้า',            y66:14,  y67:17,  y68:3,  color:'#9333ea'},
+  {rank:9, icd:'G',  group:'โรคประสาท',        desc:'อัมพฤกษ์, พาร์กินสัน, ลมชัก',          y66:5,   y67:4,   y68:1,  color:'#64748b'},
+  {rank:10,icd:'M',  group:'ระบบกล้ามเนื้อ',   desc:'ข้ออักเสบ, ปวดกล้ามเนื้อ',             y66:3,   y67:2,   y68:1,  color:'#94a3b8'},
+];
+
+const LABELS = DATA.map(d=>`${d.icd} ${d.group}`);
+
+/* ── Grouped Bar ── */
+new Chart(document.getElementById('groupBar'),{
+  type:'bar',
+  data:{
+    labels: LABELS,
+    datasets:[
+      {label:'ปี 2566', data:DATA.map(d=>d.y66), backgroundColor:'#185fa5cc', borderColor:'#185fa5', borderWidth:1, borderRadius:2},
+      {label:'ปี 2567', data:DATA.map(d=>d.y67), backgroundColor:'#0891b2cc', borderColor:'#0891b2', borderWidth:1, borderRadius:2,
+       borderDash:[],
+       hoverBackgroundColor:'#0891b2'},
+      {label:'ปี 2568*',data:DATA.map(d=>d.y68), backgroundColor:'#ea580ccc', borderColor:'#ea580c', borderWidth:1, borderRadius:2},
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{
+      label:ctx=>` ${ctx.dataset.label}: ${ctx.raw} ราย`
+    }}},
+    scales:{
+      x:{ticks:{font:{size:10}, autoSkip:false, maxRotation:30, color:'#64748b'}, grid:{display:false}},
+      y:{ticks:{font:{size:10}, color:'#64748b'}, grid:{color:'rgba(0,0,0,0.05)'},
+         title:{display:true, text:'จำนวนผู้ป่วย (ราย)', font:{size:10}, color:'#94a3b8'}}
+    }
+  }
+});
+
+/* ── Trend Line ── */
+const TOP5 = DATA.slice(0,5);
+new Chart(document.getElementById('trendLine'),{
+  type:'line',
+  data:{
+    labels:['ปี 2566','ปี 2567','ปี 2568*'],
+    datasets: TOP5.map((d,i)=>({
+      label: `${d.icd} ${d.group}`,
+      data:[d.y66, d.y67, d.y68],
+      borderColor: d.color,
+      backgroundColor: d.color+'18',
+      borderWidth:2,
+      pointRadius:5,
+      pointHoverRadius:7,
+      tension:.3,
+      fill:false,
+      borderDash: i===1?[5,3]:[]
+    }))
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{mode:'index', intersect:false,
+      callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.raw} ราย`}}},
+    scales:{
+      x:{ticks:{font:{size:11}, color:'#64748b'}, grid:{display:false}},
+      y:{ticks:{font:{size:10}, color:'#64748b'}, grid:{color:'rgba(0,0,0,0.05)'},
+         title:{display:true, text:'จำนวนผู้ป่วย (ราย)', font:{size:10}, color:'#94a3b8'}}
+    }
+  }
+});
+
+/* ── Donut 2567 ── */
+const tot67 = DATA.reduce((s,d)=>s+d.y67,0);
+new Chart(document.getElementById('donutChart'),{
+  type:'doughnut',
+  data:{
+    labels: DATA.map(d=>`${d.icd} ${d.group}`),
+    datasets:[{
+      data: DATA.map(d=>d.y67),
+      backgroundColor: DATA.map(d=>d.color+'cc'),
+      borderColor: DATA.map(d=>d.color),
+      borderWidth:1,
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, cutout:'60%',
+    plugins:{
+      legend:{
+        display:true, position:'right',
+        labels:{font:{size:10}, boxWidth:10, padding:8,
+          generateLabels:chart=>{
+            const ds=chart.data.datasets[0];
+            return chart.data.labels.map((l,i)=>({
+              text:`${l} — ${ds.data[i]} (${Math.round(ds.data[i]/tot67*100)}%)`,
+              fillStyle: ds.backgroundColor[i],
+              strokeStyle: ds.borderColor[i],
+              lineWidth:1, index:i
+            }));
+          }
+        }
+      },
+      tooltip:{callbacks:{label:ctx=>` ${ctx.raw} ราย (${Math.round(ctx.raw/tot67*100)}%)`}}
+    }
+  }
+});
+
+/* ── TABLE ── */
+const RANK_COLORS = ['#fbbf24','#94a3b8','#b45309','#0c447c','#059669','#185fa5','#7c3aed','#ea580c','#64748b','#94a3b8'];
+const RANK_BG = ['#fef3c7','#f1f5f9','#fef3c7','#dbeafe','#d1fae5','#dbeafe','#ede9fe','#ffedd5','#f1f5f9','#f1f5f9'];
+
+const tbody = document.getElementById('tblBody');
+DATA.forEach((d,i)=>{
+  const chg = d.y67 - d.y66;
+  const pct = ((chg/d.y66)*100).toFixed(1);
+  const chgStr = chg>=0 ? `<span class="chg-up">+${chg} (+${pct}%)</span>` : `<span class="chg-dn">${chg} (${pct}%)</span>`;
+  const maxV = Math.max(d.y66,d.y67);
+  const h66 = Math.round((d.y66/maxV)*20);
+  const h67 = Math.round((d.y67/maxV)*20);
+  const h68 = Math.round((d.y68/maxV)*20);
+  const bars = `<div class="bar-inline">
+    <div class="bi-seg" style="height:${h66}px;background:#185fa5cc"></div>
+    <div class="bi-seg" style="height:${h67}px;background:#0891b2cc"></div>
+    <div class="bi-seg" style="height:${h68}px;background:#ea580ccc"></div>
+  </div>`;
+  tbody.insertAdjacentHTML('beforeend',`<tr>
+    <td><span class="rank-badge" style="background:${RANK_BG[i]};color:${RANK_COLORS[i]}">${d.rank}</span></td>
+    <td><span class="icd" style="background:${d.color}22;color:${d.color}">${d.icd}</span></td>
+    <td style="font-weight:500">${d.group}</td>
+    <td style="font-size:11px;color:var(--color-text-secondary)">${d.desc}</td>
+    <td class="num">${d.y66}</td>
+    <td class="num" style="font-weight:500">${d.y67}</td>
+    <td class="num" style="color:#ea580c">${d.y68}*</td>
+    <td class="num">${chgStr}</td>
+    <td>${bars}</td>
+  </tr>`);
+});
+</script>
